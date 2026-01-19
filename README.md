@@ -1,42 +1,40 @@
-Minimal E-Commerce Backend API (Spring Boot + MongoDB)
+# Minimal E-Commerce Backend API (Spring Boot + MongoDB)
 
-This project is a minimal e-commerce backend system built using Spring Boot and MongoDB as part of an in-class assignment.
-It demonstrates core backend concepts such as REST APIs, database persistence, business logic, and webhook-based payment handling.
+This project is a minimal e-commerce backend system built using Spring Boot and MongoDB as part of an in-class assignment.  
+It demonstrates REST APIs, database persistence, business logic, and webhook-based payment handling.
 
-🎯 Objective
+---
+
+## Objective
 
 The system supports a complete purchase flow:
 
-✅ Create and list products
-
-✅ Add items to a user cart
-
-✅ Create orders from cart
-
-✅ Initiate payments (mock payment service)
-
-✅ Process payment webhooks
-
-✅ Update order status after payment
+- Create and list products
+- Add items to a user cart
+- Create orders from cart
+- Initiate payments (mock payment service)
+- Process payment webhooks
+- Update order status after payment
 
 All APIs are tested using Postman.
 
-🏗️ Tech Stack
+---
 
-Java 17+
+## Tech Stack
 
-Spring Boot 3.2.x
+- Java 17+
+- Spring Boot 3.2.x
+- Spring Web (REST APIs)
+- Spring Data MongoDB
+- MongoDB
+- Postman (API testing)
 
-Spring Web (REST APIs)
+---
 
-Spring Data MongoDB
+## Project Structure
 
-MongoDB
-
-Postman (API testing)
-
-📁 Project Structure
 src/main/java/com/example/class_assignment
+│
 ├── ClassAssignmentApplication.java
 │
 ├── controller
@@ -75,30 +73,35 @@ src/main/java/com/example/class_assignment
 └── webhook
     └── PaymentWebhookController.java
 
-🗄️ Database Schema (Entities)
+---
 
-User → represents application users
+## Database Entities
 
-Product → items available for purchase
+- User
+- Product
+- CartItem
+- Order
+- OrderItem
+- Payment
 
-CartItem → items added to user cart
+MongoDB collections are automatically created by Spring Data MongoDB.
 
-Order → order created from cart
+---
 
-OrderItem → products inside an order
+## Base URL
 
-Payment → payment information for an order
-
-MongoDB collections are automatically created by Spring Data.
-
-🌐 Base URL
 http://localhost:8080
 
-🔗 API Endpoints
-1️⃣ Product APIs
-Create Product
+---
+
+## API Endpoints
+
+### Product APIs
+
+Create Product  
 POST /api/products
 
+Request Body:
 {
   "name": "Laptop",
   "description": "Gaming Laptop",
@@ -106,132 +109,139 @@ POST /api/products
   "stock": 10
 }
 
-Get All Products
+Get All Products  
 GET /api/products
 
-2️⃣ Cart APIs
-Add Item to Cart
+---
+
+### Cart APIs
+
+Add Item to Cart  
 POST /api/cart/add
 
+Request Body:
 {
   "userId": "user123",
   "productId": "<productId>",
   "quantity": 2
 }
 
-Get User Cart
+Get User Cart  
 GET /api/cart/{userId}
 
-Clear Cart
+Clear Cart  
 DELETE /api/cart/{userId}/clear
 
-3️⃣ Order APIs
-Create Order (from cart)
+---
+
+### Order APIs
+
+Create Order (from cart)  
 POST /api/orders
 
+Request Body:
 {
   "userId": "user123"
 }
 
-Get Order Details
+Get Order Details  
 GET /api/orders/{orderId}
 
-4️⃣ Payment APIs (Mock Payment)
-Create Payment
+---
+
+### Payment APIs (Mock Payment)
+
+Create Payment  
 POST /api/payments/create
 
+Request Body:
 {
   "orderId": "<orderId>",
   "amount": 100000
 }
 
-5️⃣ Webhook API (Payment Callback)
-Simulate Payment Success
+---
+
+### Webhook API (Payment Callback)
+
+Simulate Payment Success  
 POST /api/webhooks/payment
 
+Request Body:
 {
   "orderId": "<orderId>",
   "status": "SUCCESS"
 }
 
+This updates:
+- Payment status to SUCCESS
+- Order status to PAID
 
-Updates Payment → SUCCESS
+---
 
-Updates Order → PAID
+## Complete Order Flow
 
-🔄 Complete Order Flow
+1. Create products
+2. Add products to cart
+3. View cart
+4. Create order from cart
+5. Initiate payment
+6. Trigger payment webhook
+7. Verify order status updated to PAID
 
-Create products
+---
 
-Add products to cart
+## Configuration
 
-View cart
-
-Create order from cart
-
-Initiate payment
-
-Trigger webhook (payment success)
-
-Verify order status updated to PAID
-
-⚙️ Configuration
 application.properties
+
 spring.data.mongodb.uri=mongodb://localhost:27017/class_assignment
 server.port=8080
 
-
 MongoDB must be running on localhost:27017.
 
-▶️ How to Run the Project
+---
 
-Start MongoDB
+## How to Run the Project
 
-Open project in IntelliJ IDEA
+1. Start MongoDB
+2. Open the project in IntelliJ IDEA
+3. Reload Maven dependencies
+4. Run ClassAssignmentApplication.java
+5. Server starts on port 8080
 
-Reload Maven dependencies
+---
 
-Run:
+## Testing
 
-ClassAssignmentApplication.java
+All APIs are tested using Postman in the following order:
 
-
-Server starts at:
-
-http://localhost:8080
-
-🧪 Testing
-
-All APIs are tested using Postman following the sequence:
-
-POST   /api/products
-GET    /api/products
-POST   /api/cart/add
-GET    /api/cart/{userId}
-POST   /api/orders
-POST   /api/payments/create
-POST   /api/webhooks/payment
+POST   /api/products  
+GET    /api/products  
+POST   /api/cart/add  
+GET    /api/cart/{userId}  
+POST   /api/orders  
+POST   /api/payments/create  
+POST   /api/webhooks/payment  
 GET    /api/orders/{orderId}
 
-🎓 Key Concepts Demonstrated
+---
 
-RESTful API design
+## Key Concepts Demonstrated
 
-Spring Boot auto-configuration
+- RESTful API design
+- Spring Boot auto-configuration
+- MongoDB repositories
+- Service-layer business logic
+- Cart to order conversion
+- Webhook-based payment handling
+- Order state management
 
-MongoDB repositories
+---
 
-Service-layer business logic
+## Final Status
 
-Cart → Order conversion
-
-Webhook-based payment handling
-
-Order state management
-
-🏁 Final Status
-
-✅ All required APIs implemented
-✅ Order flow working end-to-end
-✅ Payment webhook updates order status
-✅ Ready for demo, viva, and grading
+- All required APIs implemented
+- Complete order flow working
+- Payment webhook updates order status
+- Ready for demo, viva, and grading
